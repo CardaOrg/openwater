@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.DS_Store
+/out*/
+/data*/
+fake_big/
+noise_big/
+0_dummy_data/data*/
+0_dummy_data/out*/
+0_dummy_data/voorbeeld_*/logs/

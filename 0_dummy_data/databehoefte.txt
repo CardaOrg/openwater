@@ -1,0 +1,43 @@
+=== organisatie data-aanlever-spec: 13 bestanden, 61 kolommen (snake_case, zoals op schijf) ===
+    operator_id (routing) aanwezig in 6/13 tabellen
+
+WOK_Bet.csv  (7 kolommen)   ← join-target (pk_id)
+    bet_id, bet_start_datetime, bet_status, bet_total_stake, extraction_date, operator_id, pk_id
+
+WOK_Bet_Parts.csv  (5 kolommen)
+    part_event, part_live, part_odds, part_sport, wok_bet_pk_id
+
+WOK_Bet_Transaction.csv  (3 kolommen)
+    player_profile_id, transactions_id, wok_bet_pk_id
+
+WOK_Game.csv  (4 kolommen)
+    game_commercial_name, game_id, game_type, operator_id
+
+WOK_Game_Session.csv  (5 kolommen)   ← join-target (pk_id)
+    game_id, game_session_id, game_session_start_datetime, operator_id, pk_id
+
+WOK_Game_Session_Transaction.csv  (3 kolommen)
+    player_profile_id, transaction_id, wok_game_session_pk_id
+
+WOK_Player_Account_Transaction.csv  (8 kolommen)
+    operator_id, player_profile_id, transaction_amount, transaction_datetime, transaction_deposit_instrument, transaction_id, transaction_status, transaction_type
+
+WOK_Player_Limits.csv  (3 kolommen)   ← join-target (pk_id)
+    operator_id, pk_id, player_profile_id
+
+WOK_Player_Limits_Balance.csv  (3 kolommen)
+    balance_amount, balance_request_datetime, wok_player_limit_pk_id
+
+WOK_Player_Limits_Deposit.csv  (4 kolommen)
+    deposit_amount, deposit_request_datetime, deposit_time_window, wok_player_limit_pk_id
+
+WOK_Player_Limits_Login.csv  (4 kolommen)
+    login_duration, login_request_datetime, login_time_window, wok_player_limit_pk_id
+
+WOK_Player_Limits_Participation.csv  (4 kolommen)
+    participation_amount, participation_request_datetime, participation_time_window, wok_player_limit_pk_id
+
+WOK_Player_Profile.csv  (8 kolommen)
+    extraction_date, operator_id, player_profile_dob, player_profile_eod_balance, player_profile_id, player_profile_modified, player_profile_registration_datetime, player_profile_status
+
+Formaat: ;-gescheiden, dubbele-quotes, komma-decimalen, NULL voor missing.
