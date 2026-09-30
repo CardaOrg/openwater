@@ -74,7 +74,7 @@ def test_report_and_plots_for_x_features():
         # Minstens één histogram voor de x-kolommen.
         assert any(n.startswith(f"{stem}_hist_x") for n in names)
 
-        txt = (out / f"{stem}_descriptive_stats.txt").read_text()
+        txt = (out / f"{stem}_descriptive_stats.txt").read_text(encoding="utf-8")
         assert "Target Variable Distribution" in txt
         assert "Correlation matrix" in txt
     finally:
@@ -115,7 +115,7 @@ def test_runs_on_real_pipeline_features():
         target = [c for c in df.columns if c.startswith("y_")][0]
 
         out = build_descriptive_report(feat_csv, output_dir=tmp / "out", target=target)
-        txt = (out / "features_run_descriptive_stats.txt").read_text()
+        txt = (out / "features_run_descriptive_stats.txt").read_text(encoding="utf-8")
         assert "Target Variable Distribution" in txt
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
@@ -125,7 +125,7 @@ def test_newest_features_csv_picker():
     """newest_features_csv kiest een features_*.csv in een map."""
     tmp = Path(tempfile.mkdtemp(prefix="organisatie_desc_pick_"))
     try:
-        (tmp / "features_a.csv").write_text("Player_Profile_ID\n1\n")
+        (tmp / "features_a.csv").write_text("Player_Profile_ID\n1\n", encoding="utf-8")
         assert newest_features_csv(tmp).name == "features_a.csv"
         assert newest_features_csv(tmp / "bestaat_niet") is None
     finally:

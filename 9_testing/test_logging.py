@@ -35,7 +35,7 @@ def test_run_and_log_writes_child_output_to_logfile():
                "import sys; print('HELLO_STDOUT'); print('HELLO_STDERR', file=sys.stderr)"]
         ret = run_and_log(cmd, logfile)
         assert ret == 0
-        content = logfile.read_text()
+        content = logfile.read_text(encoding="utf-8")
         assert "HELLO_STDOUT" in content
         assert "HELLO_STDERR" in content  # stderr is samengevoegd met stdout
     finally:
@@ -90,7 +90,7 @@ def test_run_with_log_wrapper_end_to_end():
         assert ret == 0
         logs = list((tmp / "logs").glob("*.log"))
         assert len(logs) == 1
-        assert "WRAPPED_OK" in logs[0].read_text()
+        assert "WRAPPED_OK" in logs[0].read_text(encoding="utf-8")
         assert logs[0].name == "t_demo_latest.log"  # lokaal → latest
     finally:
         shutil.rmtree(tmp, ignore_errors=True)

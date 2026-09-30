@@ -117,7 +117,7 @@ def load_best_data(run_folder):
         operator, model, run_variant, grid_name = parts[:4]
 
         try:
-            with open(best_path) as f:
+            with open(best_path, encoding="utf-8") as f:
                 best = json.load(f)
         except Exception:
             continue
@@ -126,7 +126,7 @@ def load_best_data(run_folder):
         meta = {}
         if meta_path.exists():
             try:
-                with open(meta_path) as f:
+                with open(meta_path, encoding="utf-8") as f:
                     meta = json.load(f)
             except Exception:
                 pass
@@ -219,7 +219,7 @@ def load_yaml_config(run_folder):
     for name in ["effective_config.yaml", "hpsearch_config.yaml", "config.yaml"]:
         p = run_folder / name
         if p.exists():
-            with open(p) as f:
+            with open(p, encoding="utf-8") as f:
                 return yaml.safe_load(f)
     return None
 
@@ -992,7 +992,7 @@ def generate_report(run_label, run_folder=None, out_path=None):
 
     print(f"[5/5] Writing report ...")
     content = "\n".join(all_lines)
-    with open(out_path, "w") as f:
+    with open(out_path, "w", encoding="utf-8") as f:
         f.write(content)
 
     print(f"\nReport written to: {out_path}")

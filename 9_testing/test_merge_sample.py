@@ -74,7 +74,7 @@ def test_no_sampling_keeps_all_active_rows():
                            validation_period_prefixes=[PREFIX], all_operators=["x"],
                            sampling_ratio=0)
         merge_and_sample(cfg)
-        meta = json.loads((out / "meta.json").read_text())
+        meta = json.loads((out / "meta.json").read_text(encoding="utf-8"))
         assert meta["sampling_ratio"] == 0
         # 26 OHE-kolommen + 2 features
         assert meta["n_features"] == 28
@@ -96,7 +96,7 @@ def test_undersampling_ratio_enforced():
                            validation_period_prefixes=[PREFIX], all_operators=["x"],
                            sampling_ratio=5)
         merge_and_sample(cfg)
-        meta = json.loads((out / "meta.json").read_text())
+        meta = json.loads((out / "meta.json").read_text(encoding="utf-8"))
         assert meta["n_neg_valid"] == 5 * meta["n_pos_valid"]
         assert meta["n_valid"] == meta["n_pos_valid"] + meta["n_neg_valid"]
     finally:
@@ -134,7 +134,7 @@ def test_test_period_writes_test_full():
                            sampling_ratio=0)
         merge_and_sample(cfg)
         assert (out / "test_full.pkl").exists()
-        meta = json.loads((out / "meta.json").read_text())
+        meta = json.loads((out / "meta.json").read_text(encoding="utf-8"))
         assert "n_test" in meta and meta["n_test"] > 0
     finally:
         shutil.rmtree(tmp, ignore_errors=True)

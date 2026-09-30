@@ -76,14 +76,15 @@ def run_and_log(cmd, logfile, env=None):
 
     env_vars = (env or os.environ).copy()
     env_vars["PYTHONUNBUFFERED"] = "1"
+    env_vars["PYTHONIOENCODING"] = "utf-8"
 
     log(f"Launching: {' '.join(str(c) for c in cmd)}")
     log(f"Logs → {logfile}")
     t0 = time.perf_counter()
 
-    with open(logfile, "w", buffering=1) as lf:
+    with open(logfile, "w", buffering=1, encoding="utf-8") as lf:
         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                                env=env_vars, text=True, bufsize=1)
+                                env=env_vars, text=True, encoding="utf-8", bufsize=1)
         for line in proc.stdout:
             lf.write(line)
             print(line, end="")

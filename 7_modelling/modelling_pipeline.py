@@ -57,7 +57,7 @@ def _run_worker(script: Path, args: List[str]) -> None:
 # Config
 # -----------------------------------------------------------------------------
 def load_config(path: str | Path) -> Dict:
-    return yaml.safe_load(Path(path).read_text())
+    return yaml.safe_load(Path(path).read_text(encoding="utf-8"))
 
 
 def make_effective_config(
@@ -96,7 +96,7 @@ def write_effective_config(cfg: Dict, out_dir: str | Path) -> Path:
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     cfg_path = out_dir / "hpsearch_config_effective.yaml"
-    cfg_path.write_text(yaml.safe_dump(cfg, sort_keys=False))
+    cfg_path.write_text(yaml.safe_dump(cfg, sort_keys=False), encoding="utf-8")
     return cfg_path
 
 
