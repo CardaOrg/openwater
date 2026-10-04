@@ -112,7 +112,7 @@ def generate_descriptive_report(input_path, output_dir, target=None) -> Path:
 
     # 1) write the text report, get descriptive stats for the target variable
     out_txt = dated_out_dir / f"{prefix}_descriptive_stats.txt"
-    with out_txt.open("w") as f:
+    with out_txt.open("w", encoding="utf-8") as f:
         import contextlib
         with contextlib.redirect_stdout(f):
             get_descriptive_stats(df, target)

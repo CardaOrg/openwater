@@ -164,7 +164,7 @@ def prepare_dataset(cfg: dict):
         meta["target_test"] = tgt_test
     else:
         log("[PREPARE] No test data — skipping test_full.pkl")
-    (dataset_path / "meta.json").write_text(json.dumps(meta, indent=2))
+    (dataset_path / "meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
     log(f"[PREPARE] Done: {dataset_path}")
     return dataset_path
 
@@ -174,7 +174,7 @@ def main():
     ap.add_argument("--config", required=True)
     args = ap.parse_args()
 
-    cfg = yaml.safe_load(Path(args.config).read_text())
+    cfg = yaml.safe_load(Path(args.config).read_text(encoding="utf-8"))
     prepare_dataset(cfg)
 
 

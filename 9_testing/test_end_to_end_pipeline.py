@@ -108,7 +108,7 @@ def test_end_to_end_csv_to_model_and_report():
         )
         merge_and_sample(cfg6)
         assert (dataset_path / "valid_sampled.pkl").exists()
-        meta_ds = json.loads((dataset_path / "meta.json").read_text())
+        meta_ds = json.loads((dataset_path / "meta.json").read_text(encoding="utf-8"))
         assert meta_ds["n_pos_valid"] > 0 and meta_ds["n_features"] > 0
 
         # 7/8) modelling via OPTUNA (klein tijdsbudget) → optuna-rapportage
@@ -124,7 +124,7 @@ def test_end_to_end_csv_to_model_and_report():
         # Rapportage + model: optuna-output bestaat en bevat een beste model + scores
         assert (out / "optuna_meta.json").exists()
         assert (out / "optuna_results.csv").exists()
-        opt_meta = json.loads((out / "optuna_meta.json").read_text())
+        opt_meta = json.loads((out / "optuna_meta.json").read_text(encoding="utf-8"))
         assert isinstance(opt_meta, dict) and len(opt_meta) > 0
         res = pd.read_csv(out / "optuna_results.csv")
         assert len(res) >= 1, "optuna heeft geen trials voltooid"

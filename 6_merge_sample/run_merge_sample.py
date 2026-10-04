@@ -88,7 +88,7 @@ def main(argv=None) -> int:
 
     if args.config is not None:
         import yaml
-        cfg = yaml.safe_load(Path(args.config).read_text())
+        cfg = yaml.safe_load(Path(args.config).read_text(encoding="utf-8"))
         print(f"[run_merge_sample] config (yaml): {args.config}")
     else:
         missing = [n for n, v in [

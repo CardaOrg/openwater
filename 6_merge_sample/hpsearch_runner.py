@@ -1059,7 +1059,7 @@ def main() -> int:
 
     filter_active = int(os.environ.get("FILTER_ACTIVE", "1")) == 1
 
-    cfg = yaml.safe_load(Path(args.config).read_text())
+    cfg = yaml.safe_load(Path(args.config).read_text(encoding="utf-8"))
 
     data_dir = Path(cfg.get("data_dir", "")).expanduser()
     if not data_dir:
@@ -1220,7 +1220,7 @@ def main() -> int:
             "model": args.model,
             "run_variant": args.run_variant,
             "grid_name": args.grid_name,
-        }, indent=2))
+        }, indent=2), encoding="utf-8")
         return 0
 
     if use_prebuilt:
@@ -1232,7 +1232,7 @@ def main() -> int:
             _dt = _pickle.load(_f)
         X_train, y_train = _dv["X"], _dv["y"]
         X_test,  y_test  = _dt["X"], _dt["y"]
-        _meta_ds = json.loads((dataset_path / "meta.json").read_text())
+        _meta_ds = json.loads((dataset_path / "meta.json").read_text(encoding="utf-8"))
         feature_cols = _meta_ds["feature_cols"]
         positives = int(y_train.sum())
         total     = int(len(y_train))
@@ -1435,7 +1435,7 @@ def main() -> int:
         "mode": "temporal_cv" if has_validation else "legacy_random",
         "early_stopping": early_stopping_cfg if early_stopping_cfg.get("enabled") else None,
     }
-    (out_dir / "meta.json").write_text(json.dumps(meta_out, indent=2))
+    (out_dir / "meta.json").write_text(json.dumps(meta_out, indent=2), encoding="utf-8")
 
     if not trial_rows:
         log("[WARN] no successful trials; wrote meta only")
@@ -1467,7 +1467,7 @@ def main() -> int:
             "test_roc_auc": test_auc,
             "test_auprc": test_pr,
             "best_params": best_params,
-        }, indent=2))
+        }, indent=2), encoding="utf-8")
     elif has_validation and not run_test:
         # CV only — save CV scores without test evaluation
         _, best_cv_auc, best_cv_pr, best_cv_std_auc, best_cv_std_pr, best_params, best_pipe = best
@@ -1478,7 +1478,7 @@ def main() -> int:
             "cv_mean_auc": best_cv_auc,
             "cv_std_auc": best_cv_std_auc,
             "best_params": best_params,
-        }, indent=2))
+        }, indent=2), encoding="utf-8")
     else:
         # Legacy: single holdout, no validation/test split
         _, best_auc, best_pr, best_params, best_pipe = best
@@ -1486,7 +1486,7 @@ def main() -> int:
             "best_roc_auc": best_auc,
             "best_auprc": best_pr,
             "best_params": best_params,
-        }, indent=2))
+        }, indent=2), encoding="utf-8")
         log(f"[BEST] AUC={best_auc:.6f} AUPRC={best_pr:.6f} params={best_params}")
 
     try:

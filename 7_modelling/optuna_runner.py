@@ -854,7 +854,7 @@ def _write_top_model_statistics(df_cv5, X_train, y_train, X_test, y_test,
     W("#" * 80)
 
     out_path = out_dir / "top_model_statistics.txt"
-    out_path.write_text("\n".join(lines))
+    out_path.write_text("\n".join(lines), encoding="utf-8")
     log(f"[OUT] {out_path}")
 
 
@@ -913,7 +913,7 @@ def _run_cv5_and_test(df_out, args, spw, X_train, y_train, out_dir, meta,
                 f"  cv5_AUPRC={best_cv5['cv5_mean_auprc']:.4f}")
             meta["best_cv5_model"] = str(best_cv5["model"])
             meta["best_cv5_auprc"] = float(best_cv5["cv5_mean_auprc"])
-            (out_dir / "optuna_meta.json").write_text(json.dumps(meta, indent=2))
+            (out_dir / "optuna_meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
             best_final = best_cv5
 
     # ── Test evaluation on best trial + top_model_statistics.txt ────────────
@@ -966,7 +966,7 @@ def _run_cv5_and_test(df_out, args, spw, X_train, y_train, out_dir, meta,
             }]).to_csv(out_dir / "optuna_best_test_result.csv", index=False)
             meta["best_test_auprc"] = test_auprc
             meta["best_test_auc"]   = test_auc
-            (out_dir / "optuna_meta.json").write_text(json.dumps(meta, indent=2))
+            (out_dir / "optuna_meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
             log(f"[OUT] {out_dir / 'optuna_best_test_result.csv'}")
         except Exception as exc:
             log(f"[TEST] ⚠  Failed to evaluate best trial on test set: {exc}")
@@ -1010,7 +1010,7 @@ def main(argv=None):
 
     def log(msg): print(msg, flush=True)
 
-    cfg = yaml.safe_load(Path(args.config).read_text())
+    cfg = yaml.safe_load(Path(args.config).read_text(encoding="utf-8"))
     data_dir = Path(cfg.get("data_dir", ""))
     target_col = cfg.get("target_col", "") or ""
     validation_period_prefixes = cfg.get("validation_period_prefixes") or []
@@ -1036,7 +1036,7 @@ def main(argv=None):
             _dv = _pickle.load(_f)
         X_train, y_train = _dv["X"], _dv["y"]
         import json as _json
-        _meta_ds = _json.loads((dataset_path / "meta.json").read_text())
+        _meta_ds = _json.loads((dataset_path / "meta.json").read_text(encoding="utf-8"))
         feature_cols = _meta_ds["feature_cols"]
     else:
         log("[DATA] Building combined ALL-operators dataset ...")
@@ -1134,7 +1134,7 @@ def main(argv=None):
         df_out = pd.read_csv(csv_path).sort_values(
             "cv_mean_auprc", ascending=False, na_position="last")
         meta_path = out_dir / "optuna_meta.json"
-        meta = json.loads(meta_path.read_text()) if meta_path.exists() else {}
+        meta = json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.exists() else {}
         best_cv1 = df_out.dropna(subset=["cv_mean_auprc"]).iloc[0] if not df_out.empty else None
         best_final = best_cv1
         _run_cv5_and_test(
@@ -1209,7 +1209,7 @@ def main(argv=None):
         "best_model": str(best_cv1["model"]) if best_cv1 is not None else None,
         "best_val_auprc": float(best_cv1["cv_mean_auprc"]) if best_cv1 is not None else None,
     }
-    (out_dir / "optuna_meta.json").write_text(json.dumps(meta, indent=2))
+    (out_dir / "optuna_meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
 
     _run_cv5_and_test(
         df_out, args, spw, X_train, y_train, out_dir, meta,

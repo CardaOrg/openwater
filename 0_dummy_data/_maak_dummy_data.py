@@ -356,4 +356,4 @@ if __name__ == "__main__":
     path = _maak_dummy_data(target)
     print(f"✅ organisatie-formaat dataset gegenereerd in: {path}")
     for f in sorted(path.glob("*.csv")):
-        print(f"   {f.name}: {sum(1 for _ in f.open()) - 1} rijen")
+        print(f"   {f.name}: {sum(1 for _ in f.open(encoding='utf-8')) - 1} rijen")

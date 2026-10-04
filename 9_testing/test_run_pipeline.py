@@ -52,7 +52,7 @@ def test_run_full_pipeline_optuna_end_to_end():
 
         # Tussen-artefacten
         assert art["dataset_path"].joinpath("valid_sampled.pkl").exists()
-        meta_ds = json.loads(art["dataset_path"].joinpath("meta.json").read_text())
+        meta_ds = json.loads(art["dataset_path"].joinpath("meta.json").read_text(encoding="utf-8"))
         assert meta_ds["n_pos_valid"] > 0
 
         # Drie periodes → de feature-set bevat p0_/p1_/p2_ kolommen.

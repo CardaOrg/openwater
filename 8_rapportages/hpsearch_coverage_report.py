@@ -70,7 +70,7 @@ def main(argv=None):
         positives = None
         if meta_path.exists():
             try:
-                meta = json.loads(meta_path.read_text())
+                meta = json.loads(meta_path.read_text(encoding="utf-8"))
                 expanded_trials = meta.get("expanded_trials")
                 time_budget = meta.get("time_budget_seconds")
                 n_rows = meta.get("n_rows")
@@ -85,7 +85,7 @@ def main(argv=None):
         test_auprc = float("nan")
         if best_path.exists():
             try:
-                best = json.loads(best_path.read_text())
+                best = json.loads(best_path.read_text(encoding="utf-8"))
                 best_cv_auprc = best.get("cv_mean_auprc", float("nan"))
                 best_cv_std = best.get("cv_std_auprc", float("nan"))
                 test_auprc = best.get("test_auprc", float("nan"))

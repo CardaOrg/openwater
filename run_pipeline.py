@@ -377,7 +377,7 @@ def run_full_pipeline(
         _banner("7", "MODELLING via GRIDSEARCH")
         import yaml
         from modelling_pipeline import make_effective_config
-        base_cfg = yaml.safe_load(Path(grid_config).read_text())
+        base_cfg = yaml.safe_load(Path(grid_config).read_text(encoding="utf-8"))
         base_cfg.update(model_cfg)
         eff = make_effective_config(base_cfg, dataset_path=dataset_path)
         run_grid_search(

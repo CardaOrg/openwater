@@ -76,7 +76,7 @@ def _build_grid_run(tmp: Path) -> Path:
         "models": {"decision_tree": {"grids": {"mini": {"mode": "cartesian", "fixed": {},
                                                         "params": {"max_depth": [2, 3]}}}}},
     }
-    (tmp / "cfg.yaml").write_text(yaml.safe_dump(cfg))
+    (tmp / "cfg.yaml").write_text(yaml.safe_dump(cfg), encoding="utf-8")
     eff = make_effective_config(tmp / "cfg.yaml", dataset_path=ds)
     run_dir = tmp / "grid_run"
     run_grid_search(eff, run_dir, models=["decision_tree"], cv_folds=2,
@@ -123,7 +123,7 @@ def test_model_report_written_with_sections():
         with contextlib.redirect_stdout(io.StringIO()):
             written = create_model_report.generate_report("grid_run", run_folder=run_dir, out_path=out_path)
         assert Path(written) == out_path and out_path.exists()
-        text = out_path.read_text()
+        text = out_path.read_text(encoding="utf-8")
         assert "END OF REPORT" in text
         assert "decision_tree" in text
     finally:

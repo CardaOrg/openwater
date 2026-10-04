@@ -72,7 +72,7 @@ def _make_dataset_and_config(tmp: Path, n: int = 300, seed: int = 0) -> tuple[Pa
                                                         "params": {"max_depth": [2, 3]}}}}},
     }
     cfg_path = tmp / "cfg.yaml"
-    cfg_path.write_text(yaml.safe_dump(cfg))
+    cfg_path.write_text(yaml.safe_dump(cfg), encoding="utf-8")
     return cfg_path, ds
 
 
